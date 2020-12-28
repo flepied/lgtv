@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import sys
 import select
 import termios
@@ -8,7 +7,7 @@ import tty
 
 from pywebostv.controls import InputControl
 
-from lib import init
+from lib import (init, launch_app)
 
 
 def getKey():
@@ -39,7 +38,22 @@ if __name__ == "__main__":
             termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
             if key == 'q' or key == 'Q':
                 break
-            if key == "\x1b[A":
+            if key in ('y', 'Y'):
+                print('youtube')
+                launch_app("youtube", client)
+            elif key in ('n', 'N'):
+                print('netflix')
+                launch_app("netflix", client)
+            elif key in ('a', 'A'):
+                print('amazon')
+                launch_app("amazon", client)
+            elif key in ('o', 'O'):
+                print('ocs')
+                launch_app("ocs", client)
+            elif key in ('d', 'D'):
+                print('disney')
+                launch_app("disney", client)
+            elif key == "\x1b[A":
                 print("up")
                 inp.up(block=True)
             elif key == "\x1b[B":
@@ -51,7 +65,7 @@ if __name__ == "__main__":
             elif key == "\x1b[D":
                 print("left")
                 inp.left(block=True)
-            elif key == "\x1b[H":
+            elif key == "\x1b[H" or key in ('h', 'H'):
                 print("home")
                 inp.home(block=True)
             elif len(key) == 1:
